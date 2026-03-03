@@ -24,8 +24,9 @@ const input = resolve(process.argv[2]);
 const output = resolve(process.argv[3]);
 const slideSize = 1080;
 
+const scale = parseInt(process.argv[4]) || 4;
 const browser = await chromium.launch();
-const page = await browser.newPage();
+const page = await browser.newPage({ viewport: { width: slideSize, height: slideSize * 10 }, deviceScaleFactor: scale });
 
 await page.goto(`file://${input}`, { waitUntil: 'networkidle' });
 
@@ -35,10 +36,11 @@ await page.waitForTimeout(2000);
 // Get all slides
 const slides = await page.$$('.slide');
 const images = [];
+const renderSize = slideSize * scale;
 
 for (let i = 0; i < slides.length; i++) {
     const path = `/tmp/carousel-slide-${i}.png`;
-    await slides[i].screenshot({ path, clip: { x: 0, y: 0, width: slideSize, height: slideSize } });
+    await slides[i].screenshot({ path });
     images.push(path);
 }
 
@@ -47,8 +49,8 @@ const pdfPage = await browser.newPage();
 
 let pdfHtml = `<!DOCTYPE html><html><head><style>
     * { margin: 0; padding: 0; }
-    body { width: ${slideSize}px; }
-    img { width: ${slideSize}px; height: ${slideSize}px; display: block; page-break-after: always; }
+    body { width: ${renderSize}px; }
+    img { width: ${renderSize}px; height: ${renderSize}px; display: block; page-break-after: always; }
     img:last-child { page-break-after: auto; }
 </style></head><body>`;
 
@@ -62,8 +64,8 @@ pdfHtml += '</body></html>';
 await pdfPage.setContent(pdfHtml, { waitUntil: 'networkidle' });
 await pdfPage.pdf({
     path: output,
-    width: `${slideSize}px`,
-    height: `${slideSize}px`,
+    width: `${renderSize}px`,
+    height: `${renderSize}px`,
     printBackground: true,
     margin: { top: 0, right: 0, bottom: 0, left: 0 }
 });

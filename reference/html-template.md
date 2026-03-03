@@ -74,20 +74,9 @@ Constraints and patterns Claude must follow when generating carousel HTML. Every
 - **overflow: hidden** on every slide. Elements can bleed off-edge intentionally.
 - **Slide numbers** on every slide (top-right, subtle, 18-22px, muted).
 
-## Typography Minimums (Mobile Readability)
+## Typography Minimums
 
-LinkedIn carousels render at ~350px on phones. These minimums are non-negotiable:
-
-| Element | Minimum |
-|---------|---------|
-| Hook headline | 64px |
-| Slide headline | 44px |
-| Body text / bullets | 28px |
-| Big numbers | 72px |
-| Labels / captions | 22px |
-| Slide numbers | 18px |
-
-**Rule: If you can't read it at arm's length on a phone, it's too small.**
+See STYLE_PRESETS.md "Typography Sizing" table for exact minimums. Non-negotiable: nothing below 18px, body text minimum 28px, hook headlines minimum 64px.
 
 ---
 
@@ -211,12 +200,13 @@ Patterns where Claude might produce inconsistent results without a reference.
 ### Marker Highlight Effect
 ```css
 .highlight {
-    background: rgba(var(--accent-rgb), 0.25); /* accent color at 25% opacity */
+    background: color-mix(in srgb, var(--accent) 25%, transparent);
     padding: 4px 8px;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
 }
 /* Use on <span> wrapping key words in headlines */
+/* color-mix works with any --accent hex value. No need for a separate RGB variable. */
 ```
 
 ### KPI Delta Indicators
@@ -268,19 +258,21 @@ Patterns where Claude might produce inconsistent results without a reference.
 
 ### Edge-Bleed Decorative Shape
 ```css
-.bleed-circle {
+/* Structural bar or rectangle that bleeds off-edge, clipped by overflow:hidden */
+.bleed-bar {
     position: absolute;
-    width: 500px;
-    height: 500px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-    opacity: 0.08;
+    width: 300px;
+    height: 600px;
+    background: var(--accent);
+    opacity: 0.06;
     pointer-events: none;
+    transform: rotate(-15deg);
     /* Position partially off-slide: */
-    bottom: -200px;
-    right: -200px;
+    bottom: -150px;
+    right: -100px;
     /* overflow:hidden on .slide clips it */
 }
+/* Do NOT use radial-gradient blobs — that's the #1 AI tell. Use bars, rectangles, or angular shapes. */
 ```
 
 ---

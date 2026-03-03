@@ -24,7 +24,7 @@ Generate production-quality LinkedIn carousel PDFs. Zero-dependency HTML/CSS sli
 Before anything else, verify Playwright is available:
 
 ```bash
-node -e "import('playwright').then(() => process.exit(0)).catch(() => process.exit(1))" 2>/dev/null
+node -e "try { require('playwright') } catch(e) { require(require('child_process').execSync('npm root -g').toString().trim() + '/playwright') }" 2>/dev/null
 ```
 
 If missing, tell the user to install it now before continuing:
@@ -86,31 +86,34 @@ Located at `<skill-directory>/scripts/render.mjs`. Use `Glob("**/frontend-carous
 
 Run once per user/project. Creates `carousel-brand.md` with persistent brand settings.
 
-### Step 1.1: Style Discovery
+### Step 1.1: Route
 
-Ask the user which path:
-- **"Show me options"** → Step 1.2
-- **"I know what I want"** → Step 1.3
-- **"Use my existing brand"** → Step 1.4
+Three paths:
+- **Brand exists** → skip to Phase 2
+- **Pick from presets** → Step 1.2
+- **Custom style** → Step 1.3
 
-### Step 1.2: Vibe Discovery
+### Step 1.2: Preset Discovery
 
-Ask 2 questions to narrow the style:
+Have a short conversation to narrow 12 presets to 3 previews. Key questions (ask conversationally, not as a form):
 
-1. **Personality:** Bold & Confident / Clean & Professional / Warm & Approachable / Techy & Sharp
-2. **Background:** Dark / Light / No preference
+1. **What content?** Technical, business/strategy, storytelling, data-heavy, hot takes, mixed? Each preset's "Best for" in STYLE_PRESETS.md maps directly.
+2. **What vibe?** Loud, clean, warm, techy? Dark or light?
+3. **Simple or detailed?** Clean with just text and color, or immersive with textures and themed elements?
 
-Based on answers, select 3 presets from reference/STYLE_PRESETS.md. Generate 3 single-slide previews in `.claude-design/carousel-previews/` (style-a/b/c.html). Each shows the preset's typography, colors, and a sample hook. Ask which one resonates.
+Generate 3 single-slide preview HTML files in `.claude-design/carousel-previews/` (style-a.html, style-b.html, style-c.html). Each shows the preset's typography, colors, decorative elements, and a sample hook. User opens in browser, picks one.
 
-### Step 1.3: Direct Input
+If none fit, ask what's off and show 3 more. If still nothing after 2 rounds, offer custom (Step 1.3).
 
-User describes their brand. Ask for: background color, accent color, font preference, any existing guidelines.
+### Step 1.3: Custom Style
 
-### Step 1.4: Brand Import
+User wants something outside the 12 presets. They can share a reference (URL, screenshot, description) or describe what they want from scratch.
 
-User has colors/fonts. Ask for: hex codes (bg, text, accent), font names (display + body), optional logo/profile image URL.
+Build a custom style using STYLE_PRESETS.md as structural reference (same color variable format, same font pairing pattern, same decorative CSS approach). Source fonts from Google Fonts or Fontshare. Generate a preview slide, iterate until it clicks.
 
-### Step 1.5: Save Brand Config
+Save with all values explicit in brand config (no preset name).
+
+### Step 1.4: Save Brand Config
 
 Save to `.claude-design/carousel-brand.md`:
 

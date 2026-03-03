@@ -78,23 +78,37 @@ All text must pass WCAG AA contrast ratio (4.5:1 for body, 3:1 for large text). 
 
 **Signature Elements:**
 - Warm amber accent against deep navy
-- Subtle gradient mesh in corners (radial gradient, amber at 10% opacity)
-- Clean geometric accent lines (1-2px, accent color)
+- Subtle grid texture (amber at 2-3% opacity, structural not decorative)
+- Partial-width accent strips (top or side, never full-width)
+- Thin vertical/horizontal rules as structural anchors
 - Slide numbers in top-right, muted
 
 **Decorative CSS:**
 ```css
+/* Subtle grid texture — structural, not decorative */
 .slide::before {
     content: '';
     position: absolute;
-    top: -200px;
-    right: -200px;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(240, 165, 0, 0.08) 0%, transparent 70%);
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(240, 165, 0, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240, 165, 0, 0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
     pointer-events: none;
 }
+/* Structural accent strip — partial width */
+.top-strip {
+    position: absolute;
+    top: 0; left: 0;
+    width: 30%;
+    height: 4px;
+    background: var(--accent);
+}
 ```
+
+**DO:** Use thin rules, partial-width strips, subtle grid textures. Let amber appear in small structural touches (a short rule, a single emphasized word, a slide number). Use generous negative space. The warmth comes from the palette, not from decoration.
+
+**DON'T:** Add radial gradient blobs in corners. Don't glow the accent color (no amber text-shadow). Don't use ghost text on every slide. Don't accent more than 3 elements per slide.
 
 ---
 
@@ -126,10 +140,10 @@ All text must pass WCAG AA contrast ratio (4.5:1 for body, 3:1 for large text). 
 ```
 
 **Signature Elements:**
-- Red accent slashes as visual emphasis
+- Red accent bars under headlines (4px, short width)
 - Heavy black backgrounds, maximum contrast
-- Accent bars (4px tall, accent color) under headlines
-- No decorative shapes. Raw typography carries the design.
+- Raw typography carries the design. Minimal decoration.
+- Hard edges. No curves, no gradients, no softness.
 
 **Decorative CSS:**
 ```css
@@ -142,6 +156,10 @@ All text must pass WCAG AA contrast ratio (4.5:1 for body, 3:1 for large text). 
     margin-top: 24px;
 }
 ```
+
+**DO:** Let typography do the work. Archivo Black at 80px on pure black is the design. Use red sparingly: one accent bar, one highlighted word, one data point. Maximum restraint, maximum impact.
+
+**DON'T:** Add diagonal red slashes as decoration. Don't use red glow or text-shadow. Don't add shapes or textures. This preset is about rawness. Decoration undermines it.
 
 ---
 
@@ -174,10 +192,11 @@ All text must pass WCAG AA contrast ratio (4.5:1 for body, 3:1 for large text). 
 
 **Signature Elements:**
 - GitHub Dark color scheme
-- Terminal green accent
+- Terminal green accent used sparingly (prompt symbols, key emphasis only)
 - Monospace everything
+- Real terminal UI: window chrome with dots/tabs, status bar, line numbers, prompt paths
 - Subtle scan line effect (repeating linear gradient)
-- Code-block styled content areas (surface background, 1px border)
+- Content areas styled as code blocks (surface background, 1px border)
 
 **Decorative CSS:**
 ```css
@@ -194,14 +213,23 @@ All text must pass WCAG AA contrast ratio (4.5:1 for body, 3:1 for large text). 
     );
     pointer-events: none;
 }
-
-.slide--content .bullet-list li {
+/* Window chrome, status bars, and line gutters are part of the world */
+.titlebar {
     background: var(--surface);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    padding: 16px 24px;
+    border-bottom: 1px solid #21262d;
+    padding: 12px 16px;
+}
+.statusbar {
+    background: var(--surface);
+    border-top: 1px solid #21262d;
+    font-size: 14px;
+    color: #484f58;
 }
 ```
+
+**DO:** Make slides feel like a real terminal environment. Window chrome, tabs, status bars, prompt symbols with paths, line number gutters. Green is only for the prompt symbol and 1-2 emphasis moments per slide. White text does 90% of the work.
+
+**DON'T:** Use green on everything (green headlines, green borders, green backgrounds). Don't add gradient blobs. Don't add matrix-style effects. Don't make it look like a "hacker theme." It should feel like a real developer's actual terminal, not a movie prop.
 
 ---
 
@@ -273,6 +301,10 @@ All text must pass WCAG AA contrast ratio (4.5:1 for body, 3:1 for large text). 
 }
 ```
 
+**DO:** Commit to the technical drawing world. Every decorative element should look like it belongs on a blueprint: grid lines, registration marks, dimension annotations, dashed borders, section labels. Use annotation callouts (A1, A2) instead of bullet numbers.
+
+**DON'T:** Add decorative shapes that don't exist in technical drawings. Don't use gradient fills. Don't round corners (blueprints are precise). Don't use the cyan accent as a background color. It's an annotation color.
+
 ---
 
 ### 5. Dark Dashboard
@@ -333,6 +365,10 @@ All text must pass WCAG AA contrast ratio (4.5:1 for body, 3:1 for large text). 
 }
 .kpi-grid > * { background: #12161B; }
 ```
+
+**DO:** Make it feel like a real dashboard interface. Sharp corners on everything. 1px borders as grid structure. Status indicators (dots with glow, delta arrows). Monospace for all numbers. Data footers with key-value pairs. Everything should look like it pulls live data.
+
+**DON'T:** Round corners on cards (dashboards don't). Don't add decorative shapes. Don't use the green/red accent as background fills. They're indicator colors, not design colors. Don't make it feel like a Figma mockup.
 
 ---
 
@@ -399,6 +435,10 @@ All text must pass WCAG AA contrast ratio (4.5:1 for body, 3:1 for large text). 
 .headline { text-shadow: 0 0 6px rgba(0, 255, 65, 0.4), 0 0 12px rgba(0, 255, 65, 0.15); }
 ```
 
+**DO:** Commit to the CRT simulation. Scan lines, vignette, phosphor glow, screen curvature (border-radius). Use $ prompts, file path headers, ASCII progress bars. The glow IS the decoration here (exception to the "no glow" rule because CRTs actually glow).
+
+**DON'T:** Mix in modern UI elements (cards, grids, badges). Don't use rounded cards with borders. Everything should feel like a phosphor display from 1985, not a modern dark theme with retro colors.
+
 ---
 
 ### 7. Stencil / Industrial
@@ -455,6 +495,10 @@ All text must pass WCAG AA contrast ratio (4.5:1 for body, 3:1 for large text). 
     letter-spacing: 1px;
 }
 ```
+
+**DO:** Everything uppercase. Wide letter-spacing. Hazard stripe at top. Sequential numbering (01. 02. 03.). Classification headers. Reference codes. Stamp-framed statements. This is a military briefing, not a design presentation.
+
+**DON'T:** Use lowercase text. Don't add soft elements (rounded corners, gradients, glows). Don't use the orange accent as background fill. It's a warning/highlight color. Don't break the authoritative tone with casual layout choices.
 
 ---
 
@@ -517,6 +561,10 @@ All text must pass WCAG AA contrast ratio (4.5:1 for body, 3:1 for large text). 
 }
 ```
 
+**DO:** Make it feel like a real newspaper. Masthead with publication name. Datelines. Bylines. 2-column layouts. Thin horizontal rules between sections. Pull quotes. Page numbers instead of slide numbers. Italic metadata. Every element should have a newspaper equivalent.
+
+**DON'T:** Add modern UI elements (cards, badges, progress bars). Don't use the red accent as background. It's an editorial highlight color (like a newspaper masthead). Don't use sans-serif for body text. Newspapers use serif.
+
 ---
 
 ### 9. Neo-Brutalist
@@ -570,6 +618,10 @@ All text must pass WCAG AA contrast ratio (4.5:1 for body, 3:1 for large text). 
     box-shadow: 3px 3px 0px #FF3366;
 }
 ```
+
+**DO:** Be loud and raw. Thick black borders on everything. Hard offset shadows (no blur). Slight rotations on elements. Alternating background colors between slides. Badge labels. Highlighted text with solid accent backgrounds. This is punk design. Embrace the chaos.
+
+**DON'T:** Add gradients, blur, or soft shadows. Don't use thin borders. Don't be subtle. Don't center everything neatly. The slight imperfection (rotation, offset) IS the aesthetic. Don't make it look polished.
 
 ---
 
@@ -628,6 +680,10 @@ All text must pass WCAG AA contrast ratio (4.5:1 for body, 3:1 for large text). 
     background: #0a0a0a;
 }
 ```
+
+**DO:** Let typography and spacing be the entire design. Massive numbers as graphic elements. Strict left-alignment. Horizontal and vertical rules as the only structural decoration. Extreme size contrast (160px number next to 18px label). Generous whitespace.
+
+**DON'T:** Add ANY decorative elements. No shapes, no textures, no backgrounds beyond flat white/gray. If you're adding something that isn't text or a rule, you're breaking the preset. The restraint IS the design.
 
 ---
 
@@ -692,6 +748,10 @@ All text must pass WCAG AA contrast ratio (4.5:1 for body, 3:1 for large text). 
 }
 ```
 
+**DO:** Make it feel like a book. Roman numeral chapter numbers. Ornamental rules (thin-thick-thin). Drop caps. Italic headlines. Footnotes. Field notes attribution. Vignette at edges for that aged-page warmth. Serif everything. The gold accent is for structural touches only (rules, chapter numbers).
+
+**DON'T:** Use modern layout patterns (card grids, progress bars, KPI dashboards). Don't use sans-serif anywhere. Don't add sharp geometric elements. The warmth and softness come from the serif typography and warm tones. Don't fight it with rigid structure.
+
 ---
 
 ### 12. Risograph
@@ -750,6 +810,10 @@ All text must pass WCAG AA contrast ratio (4.5:1 for body, 3:1 for large text). 
 }
 ```
 
+**DO:** Embrace the printing imperfection. Halftone dot textures. Color overlap with mix-blend-mode: multiply. Slight misregistration (2-3px offset). Chunky rounded type. Organic shapes with high border-radius. Everything should feel like it was printed on a Risograph machine with imperfect registration.
+
+**DON'T:** Use sharp corners or precise alignment. Don't use gradients (Risograph is flat spot colors). Don't make it look digital or clean. The charm is in the imperfection. Don't use more than 3 spot colors (Risograph machines have limited ink drums).
+
 ---
 
 ## Font Pairing Reference
@@ -781,28 +845,8 @@ All text must pass WCAG AA contrast ratio (4.5:1 for body, 3:1 for large text). 
 
 **Content:** Decorative emoji as bullet points, "swipe right" text on every slide, watermark-style branding on every slide.
 
----
+
 
 ## CSS Gotchas
 
-### Negating CSS Functions
-
-**WRONG (silently ignored):**
-```css
-right: -clamp(28px, 3.5vw, 44px);   /* Browser ignores this */
-```
-
-**CORRECT:**
-```css
-right: calc(-1 * clamp(28px, 3.5vw, 44px));  /* Works */
-```
-
-Note: For carousel slides at fixed 1080px, you'll mostly use fixed px values. But if you use `min()`, `max()`, or `clamp()` for any reason, never negate them directly.
-
-### Font Loading in Playwright
-
-Playwright needs time to load web fonts before screenshotting. The render script includes a 2-second wait, but for Fontshare fonts that load slowly, increase to 3-4 seconds if fonts appear as fallbacks in the PDF.
-
-### PDF Page Breaks
-
-When combining slide screenshots into PDF, ensure each image gets its own page. Use `page-break-after: always` on all images except the last one.
+See `html-template.md` for CSS gotchas (negating functions, font loading timing, PDF page breaks).

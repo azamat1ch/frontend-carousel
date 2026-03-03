@@ -23,6 +23,44 @@ Same colors, fonts, and decorative motifs across all slides. But vary the spatia
 
 ---
 
+## Design Quality (Read This Before Generating Anything)
+
+These principles separate carousels that look designed from carousels that look AI-generated. Every generation decision should pass through these filters.
+
+### Structure Over Decoration
+Use structural elements: rules (horizontal/vertical lines), grids, borders, strips, dividers. These create visual order. Avoid decorative filler: gradient blobs, radial glows, random shapes floating in corners. If a visual element doesn't organize information or reinforce the preset's concept, delete it.
+
+**Structural (good):** A 1px vertical rule along the left edge. A 4px accent strip at the top that spans 30% of the width. A subtle dot grid as background texture. A thin border framing content.
+
+**Decorative filler (bad):** A radial gradient blob in the corner "for visual interest." A random circle bleeding off the edge. A glowing accent shadow behind text. Multiple overlapping transparent shapes.
+
+### Every Element Earns Its Place
+Before adding any decorative element, ask: "What does this do?" Valid answers: creates structure, reinforces the preset concept, guides the eye, creates breathing room. Invalid answers: fills empty space, adds visual interest, makes it look designed.
+
+Empty space is not a problem to solve. It's a design tool. A slide with a headline, a short rule, and 40% empty space looks more confident than a slide crammed with decorative elements.
+
+### Presets Are Worlds, Not Color Schemes
+Each preset has a concept. Terminal is a terminal. Blueprint is a technical drawing. Newsprint is a newspaper. The decorative elements, layout choices, and typography treatment should come from that world.
+
+Terminal slides should feel like you're looking at a real terminal: window chrome, prompt symbols, status bars, line numbers. Not "dark background with green monospace text and a gradient blob."
+
+Blueprint slides should feel like an engineering drawing: grid background, registration marks, annotation labels, dimension lines. Not "dark blue with cyan accents."
+
+When generating, ask: "Would this element exist in the real-world version of this preset's concept?" If a terminal doesn't have gradient blobs, don't add them. If a newspaper doesn't have glowing text, don't add it.
+
+### Avoid AI Default Patterns
+Claude has specific visual habits that mark output as AI-generated. These are kill-on-sight:
+
+- **Radial gradient blobs in corners.** The #1 AI tell. A soft colored circle fading to transparent, positioned in a corner "for depth." Delete it. Use structural elements (rules, borders, grids) instead.
+- **Ghost text on every slide.** A giant faded word behind content works as a deliberate choice on 1-2 slides (like a slide number or section label). On every slide as default decoration, it's wallpaper.
+- **Symmetrical vertical stacking.** Every slide: eyebrow top, headline middle, body below, metadata bottom, all centered. This is the default layout Claude reaches for. Actively break it. Push content to corners. Use asymmetric padding. Leave one entire half empty.
+- **Accent glow effects.** text-shadow or box-shadow with spread in the accent color. Looks like a Figma tutorial, not real design. Use solid colors and hard edges.
+- **Over-accented slides.** Accent eyebrow + accent headline + accent border + accent shape = nothing stands out. Max 3 accent elements per slide. Accent is a scalpel, not a paintbrush. Reserve accent for 5-10% of slide area, not 25-30%.
+- **Identical spatial compositions.** If you squint and every slide has the same silhouette (text block in the middle, decoration in corners), the carousel fails. Each slide needs a different spatial weight distribution.
+- **Decorative shapes with no concept tie.** Random circles, triangles, or abstract shapes that don't relate to the preset's world. If the preset is Terminal, decorative elements should feel like terminal UI. If it's Editorial, they should feel like newspaper layout elements.
+
+---
+
 ## Visual Tricks (CSS-Implementable)
 
 ### Edge Bleed
@@ -53,7 +91,7 @@ Instead of adding colors, use opacity variations: 100% for primary content, 60-7
 
 ## Color Usage
 
-**60-30-10 rule per slide:** 60% background, 30% text/surface, 10% accent. Most templates use too much accent (30%+), making nothing feel special. Reserve accent for the ONE element per slide that matters most.
+**60-30-10 rule:** 60% background, 30% text/surface, 10% accent. This is the only color rule you need. Accent restraint details are in "Avoid AI Default Patterns" above.
 
 ---
 
@@ -195,20 +233,25 @@ Think of a carousel like a song. Verses = content/teaching slides. Chorus = big 
 
 ## Anti-Patterns
 
-Check against this list before finalizing.
+Check every slide against this list before finalizing. If any slide triggers 2+ of these, redesign it. For AI-specific visual tells, see "Avoid AI Default Patterns" in the Design Quality section above.
 
-**Design:**
-- No generic AI aesthetics. See STYLE_PRESETS.md "DO NOT USE" section.
-- No decorative images. Typography and color over stock photos.
+### Design
+
+- No decorative images or illustrations. Typography, color, and CSS shapes only.
 - No tiny text. If tempted to shrink to fit, split into another slide.
 - No walls of text. Max 40 words per slide.
+- No "safe" color distribution. Accent should be 5-10% of slide area, not 25-30%.
+- No centered-everything layouts unless the preset specifically calls for it (e.g., Swiss Grid).
 
-**Content:**
+### Content
+
 - No filler slides. "Let's dive in" is not a slide.
 - No recap slides. The carousel IS the recap.
 - No "follow for part 2" clickbait. Deliver full value. CTA is earned.
+- No slide that exists only because "we need 10 slides." Every slide earns its spot or gets cut.
 
-**Technical:**
+### Technical
+
 - No inline images from URLs. Fonts from CDN are fine.
 - No JavaScript. CSS only for all visual effects.
 - No responsive design. Fixed 1080x1080. No media queries.

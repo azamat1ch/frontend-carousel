@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-REPO="https://raw.githubusercontent.com/TheMntnKing/frontend-carousel/main"
+REPO="https://raw.githubusercontent.com/azamat1ch/frontend-carousel/main"
 
 if [ "$1" = "--global" ]; then
   SKILL_DIR="$HOME/.claude/skills/frontend-carousel"
